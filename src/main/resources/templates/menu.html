@@ -31,9 +31,18 @@
                 <th scope="col">
                     <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDirection} }">ID</a>
                 </th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
+                <th scope="col">
+                    <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=name&sortDirection=' + ${reverseSortDirection} }">Name</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=category&sortDirection=' + ${reverseSortDirection} }">Category</a>
+                </th>
+                <th scope="col">
+                    <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=price&sortDirection=' + ${reverseSortDirection} }">Price</a>
+                </th>
+<!--                <th scope="col">Name</th>-->
+<!--                <th scope="col">Category</th>-->
+<!--                <th scope="col">Price</th>-->
                 <th scope="col" colspan="2">Actions</th>
             </tr>
             </thead>
@@ -68,7 +77,11 @@
         </div>
         <div class="pagination-no">
             <div th:each="i : ${#numbers.sequence(1, totalPages)}">
-                <a th:text="${i}" th:href="@{'/restaurant/menu/' + ${i}}"></a>
+
+<!--        /resttaurant/menu/i?sortField=id&sortDirection=sortDirection-->
+<!--        paginationが各アイテムをsortField方向にリンクを生成している
+            →すべてのページのアイテムを参照してソートをかけているということ-->
+                <a th:text="${i}" th:href="@{'/restaurant/menu/' + ${i} + '?sortField=' + ${sortField} + '&sortDirection' + ${sortDirection} }"></a>
             </div>
         </div>
     </div>
