@@ -4,6 +4,7 @@ import com.example.Week6JPAApp.models.Dish;
 import com.example.Week6JPAApp.services.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,9 @@ public class DishController {
     @Value("${restaurant.name}")
     private String restaurantName;
 
+    @Value("${page.size}")
+    private int pageSize;
+
     //endpoint for home page
     @GetMapping("/home")
     public String home(Model model) {
@@ -30,11 +34,14 @@ public class DishController {
     }
 
     //endpoint for main page
-    @GetMapping("/menu")
+    //ページネーションを追加する
+    @GetMapping("/menu/{pageNumber}")
     public String menu(Model model,
                        @RequestParam(required = false) String message,
                        @RequestParam(required = false) String searchedCategory,
-                       @RequestParam(required = false) Double searchedPrice) {
+                       @RequestParam(required = false) Double searchedPrice,
+                       @PathVariable int pageNumber ){
+
         //filter dishes by category and price
         if (searchedCategory != null && searchedPrice != null) {
             List<Dish> filteredDishes = dishService.getDishByCategoryAndPrice(searchedCategory, searchedPrice);
@@ -42,8 +49,16 @@ public class DishController {
             model.addAttribute("message", filteredDishes.isEmpty() ? "No dishes found" : "Dish filtered successfully!");
             return "menu";
         }
+
+        //pagination - return dishes in pages
+        Page<Dish> page = dishService.getPaginationToDishes(pageNumber, pageSize);
+        model.addAttribute("dishes", page.getContent());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalItems", page.getTotalElements());
+
         //general condition - return all dishes
-        model.addAttribute("dishes", dishService.getAllDishes());
+//        model.addAttribute("dishes", dishService.getAllDishes());
         model.addAttribute("message", message);
         return "menu";
     }
@@ -90,10 +105,10 @@ public class DishController {
 
         // Check if delete was successful (dish exists)
         if (deleteStatusCode == 1) {
-            return "redirect:/restaurant/menu?message=Dish deleted successfully!";
+            return "redirect:/restaurant/menu/1?message=Dish deleted successfully!";
         }
         //does delete fail (dish does not exist)
-        return "redirect:/restaurant/menu?message=Dish does not exist!";
+        return "redirect:/restaurant/menu/1?message=Dish does not exist!";
     }
 
 
@@ -108,7 +123,7 @@ public class DishController {
             model.addAttribute("dish", optionalDishToUpdate.get());
             return "add-dish";
         }
-        return "redirect:/restaurant/menu?message=Dish does not exist!";
+        return "redirect:/restaurant/menu/1?message=Dish does not exist!";
 
     }
 
@@ -116,7 +131,7 @@ public class DishController {
     public String updateDish(@ModelAttribute Dish dish, Model model) {
         //call the update method in the service class
         dishService.updateDish(dish);
-        return "redirect:/restaurant/menu?message=Dish updated successfully!";
+        return "redirect:/restaurant/menu/1?message=Dish updated successfully!";
     }
 
 }

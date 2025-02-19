@@ -3,7 +3,12 @@ package com.example.Week6JPAApp.services;
 import com.example.Week6JPAApp.models.Dish;
 import com.example.Week6JPAApp.repositories.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +69,13 @@ public class DishService {
         //business logic should have been here
 
         return dishRepository.findByIgnoreCaseCategoryAndPrice(category, price);
+    }
+
+    //pagination method
+    public Page<Dish> getPaginationToDishes(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+        return dishRepository.findAll(pageable);
+
     }
 
 }

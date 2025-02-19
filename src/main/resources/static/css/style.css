@@ -60,7 +60,7 @@ footer .card-header {
     bottom: 0;
 }
 
-footer  {
+footer {
     background-color: #499c4f;
     color: white;
     padding: 14px;
@@ -68,4 +68,32 @@ footer  {
 
 .footer-text {
     color: white;
+}
+
+/*pagination css*/
+
+/* pagination css */
+.pagination {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px; /* 追加: フッターとの間にスペースを作る */
+}
+
+.pagination-info, .pagination-no {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pagination-info div {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid lightgrey;
+}
+
+.pagination-no div {
+    margin: 5px;
+    padding: 10px;
 }
