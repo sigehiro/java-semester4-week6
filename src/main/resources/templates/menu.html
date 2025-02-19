@@ -26,7 +26,11 @@
         <table class="table table-striped table-bordered border-black ">
             <thead class="table-dark">
             <tr>
-                <th scope="col">ID</th>
+<!--            restaurant/menu/1?sortField=id&sortDirection=desc-->
+<!--            IDをリンクにして、「ID」をクリックすると、desc形式でソートされるようにします。-->
+                <th scope="col">
+                    <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDirection} }">ID</a>
+                </th>
                 <th scope="col">Name</th>
                 <th scope="col">Category</th>
                 <th scope="col">Price</th>

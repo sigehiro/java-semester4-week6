@@ -40,7 +40,11 @@ public class DishController {
                        @RequestParam(required = false) String message,
                        @RequestParam(required = false) String searchedCategory,
                        @RequestParam(required = false) Double searchedPrice,
-                       @PathVariable int pageNumber ){
+                       @PathVariable int pageNumber,
+                       //ここで、デフォルトのsortをIDにしているので、menu pageでid昇順でsort がかかった状態で表示される
+                       //ここで、defaultValue をprice とかにするとまた表示が変わる。
+                       @RequestParam(defaultValue = "id") String sortField,
+                       @RequestParam(defaultValue = "asc") String sortDirection) {
 
         //filter dishes by category and price
         if (searchedCategory != null && searchedPrice != null) {
@@ -51,11 +55,17 @@ public class DishController {
         }
 
         //pagination - return dishes in pages
-        Page<Dish> page = dishService.getPaginationToDishes(pageNumber, pageSize);
+        Page<Dish> page = dishService.getPaginationToDishes(pageNumber, pageSize, sortField, sortDirection);
+
         model.addAttribute("dishes", page.getContent());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+
 
         //general condition - return all dishes
 //        model.addAttribute("dishes", dishService.getAllDishes());

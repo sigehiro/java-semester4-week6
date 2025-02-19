@@ -3,11 +3,9 @@ package com.example.Week6JPAApp.services;
 import com.example.Week6JPAApp.models.Dish;
 import com.example.Week6JPAApp.repositories.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -72,10 +70,17 @@ public class DishService {
     }
 
     //pagination method
-    public Page<Dish> getPaginationToDishes(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo -1, pageSize);
-        return dishRepository.findAll(pageable);
+    public Page<Dish> getPaginationToDishes(int pageNo,
+                                            int pageSize,
+                                            String sortField,
+                                            String sortDirection) {
 
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+
+        Pageable pageable = PageRequest.of(pageNo -1, pageSize, sort);
+        return dishRepository.findAll(pageable);
     }
 
 }
