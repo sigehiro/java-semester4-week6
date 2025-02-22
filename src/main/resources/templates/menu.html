@@ -28,6 +28,7 @@
             <tr>
 <!--            restaurant/menu/1?sortField=id&sortDirection=desc-->
 <!--            IDをリンクにして、「ID」をクリックすると、desc形式でソートされるようにします。-->
+<!--            Make the ID a link so that when you click on “ID” it will be sorted in desc format.-->
                 <th scope="col">
                     <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDirection} }">ID</a>
                 </th>
@@ -40,9 +41,7 @@
                 <th scope="col">
                     <a th:href="@{'/restaurant/menu/' + ${currentPage} + '?sortField=price&sortDirection=' + ${reverseSortDirection} }">Price</a>
                 </th>
-<!--                <th scope="col">Name</th>-->
-<!--                <th scope="col">Category</th>-->
-<!--                <th scope="col">Price</th>-->
+
                 <th scope="col" colspan="2">Actions</th>
             </tr>
             </thead>
@@ -69,18 +68,24 @@
         </table>
     </div>
 <!--    pagination-->
+<!--    pagination only if the number of pages is greater than 1 -->
     <div class="pagination" th:if="${totalPages > 1}">
         <div class="pagination-info">
             <div>Total dishes:<span th:text="${totalItems}"></span></div>
             <div>Current page:<span th:text="${currentPage}"></span></div>
             <div>total pages:<span th:text="${totalPages}"></span></div>
         </div>
+<!--        <! &#45;&#45; Generate a sequence of numbers from 1 to
+                totalPages and iterate over each number &ndash;&gt;!-->
         <div class="pagination-no">
             <div th:each="i : ${#numbers.sequence(1, totalPages)}">
 
 <!--        /resttaurant/menu/i?sortField=id&sortDirection=sortDirection-->
 <!--        paginationが各アイテムをsortField方向にリンクを生成している
             →すべてのページのアイテムを参照してソートをかけているということ-->
+<!--                Generates a URL containing the values of sortField and sortDirection
+                    as query parameters, along with the page number i.-->
+<!--                This will sort all pagination items by the specified sort criteria-->
                 <a th:text="${i}" th:href="@{'/restaurant/menu/' + ${i} + '?sortField=' + ${sortField} + '&sortDirection' + ${sortDirection} }"></a>
             </div>
         </div>

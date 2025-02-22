@@ -14,9 +14,18 @@ import java.util.Optional;
 @Service
 public class DishService {
 
-    //injecting the repository
-    @Autowired
-    private DishRepository dishRepository;
+    //constructor injection
+    //final にしてDishServiceを定義するメリットは２つ。コンストラクタインジェクションishServiceクラスが
+    // DishRepositoryに依存していることが明示されます。
+    // これにより、クラスの依存関係が明確になり、コードの可読性が向上します
+    //不変性の確保: DishRepositoryフィールドがfinalで宣言されているため
+    // 一度初期化された後に変更されることがありません。これにより、オブジェクトの不変性が確保され、
+    // 予期しない変更によるバグを防ぐことができます
+    private final DishRepository dishRepository;
+
+    public DishService(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     // Method to retrieve all dishes from the database
     public List<Dish> getAllDishes() {
@@ -75,11 +84,14 @@ public class DishService {
                                             String sortField,
                                             String sortDirection) {
 
+        // Determine the sort direction and create a Sort object
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
 
-
+        // Create a Pageable object with the specified page number, page size, and sort order
         Pageable pageable = PageRequest.of(pageNo -1, pageSize, sort);
+
+        // Retrieve and return the paginated list of dishes from the repository
         return dishRepository.findAll(pageable);
     }
 
