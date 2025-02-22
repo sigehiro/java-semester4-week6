@@ -22,4 +22,4 @@
 - The Menu page is set to display 5 items per page.
 
 
-![all-function](./images/画像ファイル名.png)
+![all-function](filter-pagination.png)
