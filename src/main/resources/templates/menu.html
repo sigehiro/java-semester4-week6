@@ -58,9 +58,9 @@
                 <td th:text="${dish.category}">Otto</td>
                 <td th:text="${dish.price}">@mdo</td>
                 <td>
-                    <a th:href="@{/restaurant/update/{id}(id=${dish.id})}"
+                    <a th:href="@{/restaurant/admin/update/{id}(id=${dish.id})}"
                         class="btn btn-primary btn-sm">Update</a>
-                    <a th:href="@{/restaurant/delete/{id}(id=${dish.id})}"
+                    <a th:href="@{/restaurant/admin/delete/{id}(id=${dish.id})}"
                        class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>

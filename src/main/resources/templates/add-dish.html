@@ -24,7 +24,7 @@
                 <!--th:object: Binds a form to a specific object.-->
                 <!--th:object: フォームを特定のオブジェクトにバインドします。
                 th:action: フォームが送信されるURLを指定します。-->
-                <form method="post" th:object="${dish}" th:action="${dish.name} ? @{/restaurant/update} : @{/restaurant/save} " >
+                <form method="post" th:object="${dish}" th:action="${dish.name} ? @{/restaurant/admin/update} : @{/restaurant/admin/save} " >
 <!--                    <div>-->
 <!--                        &lt;!&ndash; Input for dish ID, bound to 'id' field of 'dish' object &ndash;&gt;-->
 <!--                        <label class="form-label" for="menu-id">ID</label>-->
